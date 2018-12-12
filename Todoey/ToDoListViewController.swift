@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggs", "Destroy Demorgon"]
+    var itemArray = ["Find Mike", "Buy Eggs", "Destroy Demorgon"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +44,8 @@ class ToDoListViewController: UITableViewController {
         
 //        print(itemArray[indexPath.row])
         
+        //Check mark the cells that are selected and uncheck them
+        
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
         } else {
@@ -51,12 +53,42 @@ class ToDoListViewController: UITableViewController {
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
-        
 
     }
     
     
+    //MARK - Add New Items
     
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+    
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //what will happen once the user clicks the Add Item button on our UIAlert
+            
+            self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (cancelAction) in
+            
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create New Item"
+            textField = alertTextField
+        }
+        
+        alert.addAction(action)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    
+    }
     
 
 
